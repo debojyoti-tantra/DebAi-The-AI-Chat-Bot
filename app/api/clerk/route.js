@@ -22,7 +22,7 @@ export async function POST(req) {
     const userData = {
         clerkId: data.id,
         fullName: data.fullName,
-        email: data.primaryEmailAddress.emailAddress,
+        email: data.emailAddresses[0].emailAddress,
         imageUrl: data.imageUrl
     }
 

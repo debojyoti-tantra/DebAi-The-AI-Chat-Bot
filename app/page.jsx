@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 export default function Home() {
-  const [message, setMessage] = useState([1]);
+  const [message, setMessage] = useState([]);
 
   return (
     <div className="flex flex-1 flex-col">

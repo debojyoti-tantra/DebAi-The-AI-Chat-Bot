@@ -21,9 +21,9 @@ export async function POST(req) {
     // prepare the userdata to be saved in the database
     const userData = {
         clerkId: data.id,
-        fullName: data.fullName,
+        fullName: `${data.first_name} ${data.last_name}`,
         email: data.email_addresses[0].email_address,
-        imageUrl: data.imageUrl
+        imageUrl: data.image_url
     }
 
     await connectDB();

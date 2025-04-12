@@ -6,6 +6,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
+import { AppContextProvider } from "@/context/AppContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,28 +26,29 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
+      <AppContextProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
-            <SidebarProvider>
-              <AppSidebar />
-              <div className="flex flex-1 flex-col overflow-hidden">
-                <Navbar />
-                {children}
-                <Toaster />
-              </div>
-            </SidebarProvider>
-          </ThemeProvider>
-        </body>
-      </html>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <SidebarProvider>
+                <AppSidebar />
+                <div className="flex flex-1 flex-col overflow-hidden">
+                  <Navbar />
+                  {children}
+                  <Toaster />
+                </div>
+              </SidebarProvider>
+            </ThemeProvider>
+          </body>
+        </html>
+      </AppContextProvider>
     </ClerkProvider>
   );
 }

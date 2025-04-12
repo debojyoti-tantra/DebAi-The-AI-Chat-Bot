@@ -14,7 +14,6 @@ const Message = ({role, content}) => {
                     <>
                         <img src={user?.imageUrl} alt={user?.name} width={40} height={40} className="rounded-full" />
                         <p className="ml-2">{user?.fullName}</p>
-                        <p className="ml-2">{user?.id}</p>
                         <p className="ml-2 text-sm">{content}</p>
                     </>
                 ) : (

@@ -4,9 +4,102 @@ import { Textarea } from './ui/textarea'
 import { Button } from './ui/button'
 import { SendHorizonal } from 'lucide-react'
 import { toast } from 'sonner'
+import { useAppContext } from '@/context/AppContext'
+import axios from 'axios'
 
-const PromptBox = () => {
+const PromptBox = ({isMessageLoading, setIsMessageLoading}) => {
   const [prompt, setPrompt] = useState('')
+  const { user, chats, setChats, selectedChat, setSelectedChat, createNewChat, fetchUserChats } = useAppContext()
+
+
+  const sendPrompt = async (e) => {
+    const promptCopy = prompt
+    try {
+      e.preventDefault()
+      if (!user) return toast.error('Please login to send messages')
+      if (isMessageLoading) return toast.error('Please wait for the previous message to finish loading')
+      
+      setIsMessageLoading(true)
+      setPrompt('')
+
+      const userPrompt = {
+        role: 'user',
+        content: prompt,
+        timestamp: Date.now(),
+      }
+
+      // saving user prompt to the chats array
+      setChats((prevChats) => prevChats.map((chat) => chat._id === selectedChat._id ? {
+        ...chat,
+        messages: [...chat.messages, userPrompt],
+      }: chat
+      ))
+
+      // saving user prompt to the selected chat
+      setSelectedChat((prevSelectedChat) => ({
+        ...prevSelectedChat,
+        messages: [...prevSelectedChat.messages, userPrompt],
+      }))
+
+
+      const {data} = await axios.post('/api/chat/ai', {
+        chatId: selectedChat._id,
+        prompt
+      })
+
+      if (data.success) {
+        setChats((prevChats) => prevChats.map((chat) => chat._id === selectedChat._id ? {
+          ...chat,
+          messages: [...chat.messages, data.data],
+        }: chat
+        ))
+
+        const message = data.data.content;
+        const messageTokens = message.split(" ");
+        let assistanceMessage ={
+          role: 'assistant',
+          content: "",
+          timestamp: Date.now(),
+        }
+
+        setSelectedChat((prevSelectedChat) => ({
+          ...prevSelectedChat,
+          messages: [...prevSelectedChat.messages, assistanceMessage],
+        }))
+
+        for (let i = 0; i < messageTokens.length; i++) {
+          setTimeout(() => {
+            assistanceMessage.content = messageTokens.slice(0, i + 1).join(" ");
+            setSelectedChat((prev) => {
+              const updatedMessages = [
+                ...prev.messages.slice(0, -1),
+                assistanceMessage,
+              ]
+              return {...prev, messages: updatedMessages}
+            })
+          }, i*100)
+          
+        }
+
+      } else {
+        toast.error(data.message)
+        setPrompt(promptCopy)
+      }
+
+    } catch (error) {
+      toast.error(error.message)
+      setPrompt(promptCopy)
+    } finally {
+      setIsMessageLoading(false)
+    }
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      sendPrompt(e)
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -21,10 +114,11 @@ const PromptBox = () => {
 
   return (
     <form 
-      onSubmit={handleSubmit} 
+      onSubmit={sendPrompt}
       className="flex items-center gap-2 border rounded-lg px-4 py-3 shadow-md bg-background w-full max-w-3xl mx-auto p-1 border-gray-500"
     >
       <Textarea
+        onKeyDown={handleKeyDown}
         rows={2}
         placeholder="Chat with DebAi..."
         value={prompt}

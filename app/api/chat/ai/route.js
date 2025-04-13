@@ -1,4 +1,4 @@
-export const maxDurations = 60;
+export const maxDuration = 60;
 import connectDB from "@/config/db";
 import Chat from "@/models/chatModel";
 import { getAuth } from "@clerk/nextjs/server";
@@ -41,7 +41,6 @@ export async function POST(req) {
             store: true,
         });
     
-        // console.log(completion.choices[0].message.content);
         const message = completion.choices[0].message
         message.timestamps = Date.now()
         data.messages.push(message)

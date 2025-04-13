@@ -41,7 +41,6 @@ export const AppContextProvider = ({ children }) => {
             const {data} = await axios.get('/api/chat/get', {headers: {Authorization: `Bearer ${token}`}})
 
             if (data.success) {
-                console.log(data.data)
                 setChats(data.data)
 
                 // if the user has no chats then create a new chat
@@ -54,7 +53,6 @@ export const AppContextProvider = ({ children }) => {
 
                     // set resently updated chats as selected chat
                     setSelectedChat(data.data[0])
-                    console.log(data.data[0])
                 }
 
             } else {
@@ -85,20 +83,3 @@ export const AppContextProvider = ({ children }) => {
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }
-
-
-
-
-
-
-// curl https://api.deepseek.com/chat/completions \
-//   -H "Content-Type: application/json" \
-//   -H "Authorization: Bearer sk-825cd5e8b9aa4efa8627d93016f53dc8" \
-//   -d '{
-//         "model": "deepseek-chat",
-//         "messages": [
-//           {"role": "system", "content": "You are a helpful assistant."},
-//           {"role": "user", "content": "Hello!"}
-//         ],
-//         "stream": false
-//       }'

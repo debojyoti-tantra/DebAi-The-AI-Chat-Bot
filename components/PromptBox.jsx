@@ -108,14 +108,13 @@ const PromptBox = ({isMessageLoading, setIsMessageLoading}) => {
       setPrompt('')
     }
     // Handle sending the message...
-    console.log(prompt)
     setPrompt('')
   }
 
   return (
     <form 
       onSubmit={sendPrompt}
-      className="flex items-center gap-2 border rounded-lg px-4 py-3 shadow-md bg-background w-full max-w-3xl mx-auto p-1 border-gray-500"
+      className="flex items-center gap-2 border rounded-lg px-4 py-3 shadow-md bg-background w-[93%] mx-auto ax-w-3xl mx-auto p-1 border-gray-500"
     >
       <Textarea
         onKeyDown={handleKeyDown}

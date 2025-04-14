@@ -6,7 +6,6 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar"
-import { UserIcon } from "lucide-react"
 import Image from "next/image"
 import { Button } from "./ui/button"
 import { StarsIcon } from "lucide-react"
@@ -20,13 +19,14 @@ import { toast } from "sonner"
 import { useUser } from "@clerk/nextjs"
 import { Skeleton } from "./ui/skeleton"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from "./ui/dialog"
 import Link from "next/link"
+import { FileCode2 } from "lucide-react"
 
 
 export function AppSidebar() {
   const { isLoaded } = useUser()
-  const { fetchUserChats, chats, setSelectedChat, createNewChat } = useAppContext()
+  const { fetchUserChats, chats, setSelectedChat, createNewChat, selectedChat } = useAppContext()
 
   const selectChat = ({ id }) => {
     const chatData = chats.find(chat => chat._id === id)
@@ -81,8 +81,10 @@ export function AppSidebar() {
         {isLoaded ? (
           chats.map((chat, index) => {
             return (
-              <SidebarGroup key={index} onClick={() => selectChat({ id: chat?._id })} className="flex flex-row gap-2 justify-between w-[90%] bg-violet-300 hover:bg-violet-400 dark:hover:bg-gray-700 dark:bg-gray-800 p-2 mx-auto rounded-md">
-                <p className="text-sm my-1 mx-3">{chat?.name}</p>
+              <SidebarGroup key={index} onClick={() => selectChat({ id: chat?._id })} className={`flex flex-row gap-2 justify-between w-[90%] ${chat._id === selectedChat._id ? 'bg-violet-400 dark:bg-gray-700' : 'bg-violet-300 hover:bg-violet-400 dark:hover:bg-gray-700 dark:bg-gray-800'} p-2 mx-auto rounded-md`}>
+                <div className="text-sm my-1 mx-3 flex justify-center items-center gap-2">
+                  <FileCode2 /> <p>{chat?.name}</p>
+                </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger><MenuIcon /></DropdownMenuTrigger>
                   <DropdownMenuContent>

@@ -4,7 +4,7 @@
 
 ## Features
 
-- **AI Chat Assistant** using DeepSeek (OpenAI-compatible API)
+- **AI Chat Assistant** using OpenAI
 - **User Authentication** via Clerk
 - **Real-Time Chat UI** with Avatar, Markdown, Syntax Highlighting
 - **Dark & Light Theme** using `next-themes`
@@ -14,10 +14,10 @@
 
 ## Tech Stack
 
-- **Frontend**: Next.js 15, React 19, Tailwind CSS, Radix UI, Lucide Icons
-- **Backend**: Node.js (API Routes), MongoDB, Mongoose
+- **Frontend**: NextJs 15, React 19, Tailwind CSS, Radix UI, Lucide Icons
+- **Backend**: NestJs (API Routes), MongoDB, Mongoose
 - **Authentication**: Clerk
-- **AI**: DeepSeek API (OpenAI-compatible)
+- **AI**: OpanAI API
 - **Utilities**: Prism.js, React Markdown, Sonner (toast), Class Variance Authority
 
 ## Getting Started
@@ -41,7 +41,7 @@ pnpm install
 CLERK_SECRET_KEY=your_clerk_secret_key
 CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 MONGODB_URI=your_mongodb_connection_string
-DEEPSEEK_API_KEY=your_deepseek_api_key
+OPENAI_API_KEY=your_deepseek_api_key
 ```
 
 ### 4. Run the app

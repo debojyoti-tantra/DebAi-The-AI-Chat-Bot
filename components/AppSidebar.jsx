@@ -73,7 +73,7 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <Image src={'/DebAi.png'} alt="debai logo" width={50} height={50} className="rounded-md w-[50%] h-[40%] mx-auto mt-2" />
+        <Image src={'/debai2.png'} alt="debai logo" width={50} height={50} className="rounded-md w-[50%] h-[40%] mx-auto mt-2" />
         <Button onClick={createNewChat} className='mx-auto'>New Chat <StarsIcon /></Button>
       </SidebarHeader>
       <p className="text-sm text-gray-600 dark:text-gray-400 mb-1 mx-3">Recent Chats</p>
